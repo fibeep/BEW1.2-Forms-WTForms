@@ -43,11 +43,11 @@ def new_store():
 
 @main.route('/new_item', methods=['GET', 'POST'])
 def new_item():
-    # TODO: Create a GroceryItemForm
+    # : Create a GroceryItemForm
     
     form = GroceryItemForm()
 
-    # TODO: If form was submitted and was valid:
+    # : If form was submitted and was valid:
     # - create a new GroceryItem object and save it to the database,
     # - flash a success message, and
     # - redirect the user to the item detail page.
@@ -63,6 +63,7 @@ def new_item():
         db.session.commit()
 
     # TODO: Send the form to the template and use it to render the form fields
+        return redirect(url_for('main.home', item=new_item))
     return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])

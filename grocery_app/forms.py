@@ -29,7 +29,7 @@ class GroceryItemForm(FlaskForm):
     # - store - QuerySelectField (specify the `query_factory` param)
     # - submit button
 
-    name = StringField("Address", validators=[DataRequired(), Length(min=3, max=80)])
+    name = StringField("Name", validators=[DataRequired(), Length(min=3, max=80)])
     price = FloatField()
     category = SelectField('Category', choices=ItemCategory.choices())
     photo_url = StringField("Photo Url", validators=[URL()])
