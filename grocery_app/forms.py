@@ -1,16 +1,22 @@
+from grocery_app.models import GroceryItem, ItemCategory
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, SubmitField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms.fields.core import FloatField
 from wtforms.validators import DataRequired, Length, URL
+from wtforms.widgets.core import Select
 
 class GroceryStoreForm(FlaskForm):
     """Form for adding/updating a GroceryStore."""
 
-    # TODO: Add the following fields to the form class:
+    # : Add the following fields to the form class:
     # - title - StringField
     # - address - StringField
     # - submit button
-    pass
+    title = StringField("Title", validators=[ DataRequired(), Length(min=3, max=80)])
+    address = StringField("Address", validators=[ DataRequired(), Length(min=3, max=80)])
+    submit = SubmitField('Submit!')
+    
 
 class GroceryItemForm(FlaskForm):
     """Form for adding/updating a GroceryItem."""
@@ -22,4 +28,12 @@ class GroceryItemForm(FlaskForm):
     # - photo_url - StringField (use a URL validator)
     # - store - QuerySelectField (specify the `query_factory` param)
     # - submit button
+
+    name = StringField("Address", validators=[DataRequired(), Length(min=3, max=80)])
+    price = FloatField()
+    category = SelectField('Category', choices=ItemCategory.choices())
+    photo_url = StringField("Photo Url", validators=[URL()])
+    store = QuerySelectField('Store', query_factory=lambda: GroceryItem.query)
+    submit = SubmitField('Submit')
+
     pass
