@@ -37,8 +37,8 @@ def new_store():
         db.session.add(new_store)
         db.session.commit()
 
-    # TODO: Send the form to the template and use it to render the form fields
-        return redirect(url_for('main.home', store=new_store))
+    # : Send the form to the template and use it to render the form fields
+        return redirect(url_for('main.homepage', store=new_store))
     return render_template('new_store.html', form=form)
 
 @main.route('/new_item', methods=['GET', 'POST'])
@@ -62,23 +62,32 @@ def new_item():
         db.session.add(new_item)
         db.session.commit()
 
-    # TODO: Send the form to the template and use it to render the form fields
+    # : Send the form to the template and use it to render the form fields
         return redirect(url_for('main.home', item=new_item))
     return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])
 def store_detail(store_id):
     store = GroceryStore.query.get(store_id)
-    # TODO: Create a GroceryStoreForm and pass in `obj=store`
-
-    # TODO: If form was submitted and was valid:
+    # : Create a GroceryStoreForm and pass in `obj=store`
+    form = GroceryStoreForm(obj=store)
+    # : If form was submitted and was valid:
     # - update the GroceryStore object and save it to the database,
     # - flash a success message, and
     # - redirect the user to the store detail page.
-
-    # TODO: Send the form to the template and use it to render the form fields
+    if form.validate_on_submit():
+        store.title = form.title.data
+        store.address = form.address.data
+        db.session.add(store)
+        db.session.commit()
+        flash('Store was updated successfully.')
+        return redirect(url_for('main.store_detail', store_id=store.id))
+    # : Send the form to the template and use it to render the form fields
+        
     store = GroceryStore.query.get(store_id)
-    return render_template('store_detail.html', store=store)
+    return render_template('store_detail.html', store=store, form=form)
+
+
 
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
 def item_detail(item_id):
