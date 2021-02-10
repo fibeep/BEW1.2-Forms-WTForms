@@ -36,6 +36,7 @@ def new_store():
         )
         db.session.add(new_store)
         db.session.commit()
+        flash('Store was created successfully.')
 
     # : Send the form to the template and use it to render the form fields
         return redirect(url_for('main.homepage', store=new_store))
@@ -61,9 +62,10 @@ def new_item():
         )
         db.session.add(new_item)
         db.session.commit()
+        flash('Item was created successfully.')
 
     # : Send the form to the template and use it to render the form fields
-        return redirect(url_for('main.home', item=new_item))
+        return redirect(url_for('main.item_detail', item_id=new_item.id))
     return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])
@@ -92,14 +94,25 @@ def store_detail(store_id):
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
 def item_detail(item_id):
     item = GroceryItem.query.get(item_id)
-    # TODO: Create a GroceryItemForm and pass in `obj=item`
-
-    # TODO: If form was submitted and was valid:
+    # : Create a GroceryItemForm and pass in `obj=item`
+    form = GroceryItemForm(obj=item)
+    # : If form was submitted and was valid:
     # - update the GroceryItem object and save it to the database,
     # - flash a success message, and
     # - redirect the user to the item detail page.
 
-    # TODO: Send the form to the template and use it to render the form fields
+    if form.validate_on_submit():
+            item.name=form.name.data,
+            item.price=form.price.data,
+            item.category=form.category.data,
+            item.photo_url=form.photo_url.data,
+            item.store=form.store.data
+        
+            db.session.add(item)
+            db.session.commit()
+            flash('Item was updated successfully.')
+            return redirect(url_for('main.item_detail', item_id=item.id))
+    # : Send the form to the template and use it to render the form fields
     item = GroceryItem.query.get(item_id)
-    return render_template('item_detail.html', item=item)
+    return render_template('item_detail.html', item=item, form=form)
 
