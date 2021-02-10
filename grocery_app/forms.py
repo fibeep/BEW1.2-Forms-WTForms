@@ -1,4 +1,4 @@
-from grocery_app.models import GroceryItem, ItemCategory
+from grocery_app.models import GroceryItem, GroceryStore, ItemCategory
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, SubmitField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -33,7 +33,7 @@ class GroceryItemForm(FlaskForm):
     price = FloatField()
     category = SelectField('Category', choices=ItemCategory.choices())
     photo_url = StringField("Photo Url", validators=[URL()])
-    store = QuerySelectField('Store', query_factory=lambda: GroceryItem.query)
+    store = QuerySelectField('Store', query_factory=lambda: GroceryStore.query)
     submit = SubmitField('Submit')
 
     pass
