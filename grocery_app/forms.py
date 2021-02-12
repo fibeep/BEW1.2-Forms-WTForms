@@ -36,4 +36,3 @@ class GroceryItemForm(FlaskForm):
     store = QuerySelectField('Store', query_factory=lambda: GroceryStore.query)
     submit = SubmitField('Submit')
 
-    pass
