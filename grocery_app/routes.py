@@ -22,6 +22,7 @@ def homepage():
     return render_template('home.html', all_stores=all_stores)
 
 @main.route('/new_store', methods=['GET', 'POST'])
+@login_required
 def new_store():
     # : Create a GroceryStoreForm
     form = GroceryStoreForm()
@@ -45,6 +46,7 @@ def new_store():
     return render_template('new_store.html', form=form)
 
 @main.route('/new_item', methods=['GET', 'POST'])
+@login_required
 def new_item():
     # : Create a GroceryItemForm
     
@@ -71,6 +73,7 @@ def new_item():
     return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])
+@login_required
 def store_detail(store_id):
     store = GroceryStore.query.get(store_id)
     # : Create a GroceryStoreForm and pass in `obj=store`
@@ -94,6 +97,7 @@ def store_detail(store_id):
 
 
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
+@login_required
 def item_detail(item_id):
     item = GroceryItem.query.get(item_id)
     # : Create a GroceryItemForm and pass in `obj=item`
