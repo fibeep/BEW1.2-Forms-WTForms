@@ -126,7 +126,7 @@ def item_detail(item_id):
     return render_template('item_detail.html', item=item, form=form)
 
 
-# routes.py
+#  Log in + out Routes
 
 auth = Blueprint("auth", __name__)
 
@@ -168,3 +168,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.homepage'))
+
+
+# Routes for adding to shopping list
+
+@main.route('/add_to_shopping_list/<item_id>', methods=['POST'])
+def add_to_shopping_list(item_id):
+    # ... adds item to current_user's shopping list
+    pass
+
+
+@main.route('/shopping_list')
+@login_required
+def shopping_list():
+    # ... get logged in user's shopping list items ...
+    # ... display shopping list items in a template ...
