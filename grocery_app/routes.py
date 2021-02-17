@@ -175,11 +175,16 @@ def logout():
 @main.route('/add_to_shopping_list/<item_id>', methods=['POST'])
 def add_to_shopping_list(item_id):
     # ... adds item to current_user's shopping list
-    pass
-
+    #curent_user to target user
+    
+    item = GroceryItem.query.filter_by(id=item_id).one()
+    current_user.shopping_list_items.append(item)
+    db.session.commit()
+    return redirect(url_for('main.shopping_list'))
 
 @main.route('/shopping_list')
 @login_required
 def shopping_list():
-    # ... get logged in user's shopping list items ...
+    item = current_user.shopping_list_items
     # ... display shopping list items in a template ...
+    return render_template('shopping_list.html', item=item)

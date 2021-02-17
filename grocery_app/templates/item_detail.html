@@ -37,8 +37,14 @@
 
         {{form.submit}}
 
+        
 
     </fieldset>
 </form>
 
+
+<form method="POST" action="/add_to_shopping_list/{{item.id}}">
+    <label>Add Item To List</label>
+    <input type="submit" value="Submit">
+</form>
 {% endblock %}
